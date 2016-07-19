@@ -44,10 +44,6 @@ var async = require('async'),
         }
     },
     onlyTake = function (numberOfBuilds, newBuilds) {
-        var uniqueBuilds = newBuilds.filter(function(elem, index, array) {
-            return array.indexOf(elem).project === index.project;
-        });
-        newBuilds = uniqueBuilds;
         newBuilds.splice(numberOfBuilds);
     },
     changed = function (currentBuilds, newBuilds) {

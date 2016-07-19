@@ -31,13 +31,35 @@ define(['ko', 'notification', 'BuildViewModel', 'OptionsViewModel'], function (k
             })[0];
         };
         
+	var sortObjArray = function(arr, field) {
+   		 arr.sort(
+        	function compare(a,b) {
+            		if (a[field] < b[field])
+                		return -1;
+            		if (a[field] > b[field])
+                		return 1;
+            		return 0;
+        		}
+    		);
+	};
+
+	var removeDuplicatesFromObjArray = function(arr, field) {
+    		var u = [];
+    		arr.reduce(function (a, b) {
+        		if (a[field] !== b[field]) u.push(b);
+        		return b;
+    		}, []);
+    		return u;
+	};
+ 
         this.loadBuilds = function (builds) {
             self.builds.removeAll();
-	   
-            var newBuilds = builds.filter(function (elem, index, array) {
-		return array.indexOf(elem).project() === index.project();
-	    }); 
+	    sortObjArray(builds, "project");
+	  
+            var newBuilds = removeDuplicatesFromObjArray(builds, "project");
+ 
             newBuilds.forEach(function (build) {
+	       console.log(build.project);
                self.builds.push(new BuildViewModel(build));
             });
         };

@@ -33,8 +33,10 @@ define(['ko', 'notification', 'BuildViewModel', 'OptionsViewModel'], function (k
 
         this.loadBuilds = function (builds) {
             self.builds.removeAll();
-
-            builds.forEach(function (build) {
+            var newBuilds = builds.filter(function(elem, index, array) {
+                return array.indexOf(elem).project === index.project;
+            });
+            newBuilds.forEach(function (build) {
                 self.builds.push(new BuildViewModel(build));
             });
         };

@@ -30,14 +30,15 @@ define(['ko', 'notification', 'BuildViewModel', 'OptionsViewModel'], function (k
                 return build.id() === id;
             })[0];
         };
-
+        
         this.loadBuilds = function (builds) {
             self.builds.removeAll();
-            var newBuilds = builds.filter(function(elem, index, array) {
-                return array.indexOf(elem).project === index.project;
-            });
+	   
+            var newBuilds = builds.filter(function (elem, index, array) {
+		return array.indexOf(elem).project() === index.project();
+	    }); 
             newBuilds.forEach(function (build) {
-                self.builds.push(new BuildViewModel(build));
+               self.builds.push(new BuildViewModel(build));
             });
         };
 
